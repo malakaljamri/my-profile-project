@@ -1,0 +1,19 @@
+.App {
+  text-align: center;
+  padding: 20px;
+}
+
+.App-header {
+  background-color: #282c34;
+  color: white;
+  padding: 20px;
+}
+
+.profile-info {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.stats {
+  margin-top: 20px;
+}
