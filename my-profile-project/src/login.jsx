@@ -80,7 +80,13 @@ const styles = {
   container: { maxWidth: "300px", margin: "auto", textAlign: "center" },
   form: { display: "flex", flexDirection: "column", gap: "10px" },
   input: { width: "100%", padding: "8px", marginBottom: "10px" },
-  button: { padding: "10px", backgroundColor: "blue", color: "white", border: "none", cursor: "pointer" },
+  button: { 
+    padding: "10px", 
+    backgroundColor: "var(--primary)", 
+    color: "var(--contrast)", 
+    border: "none", 
+    cursor: "pointer" 
+  },
   error: { color: "red" },
 };
 

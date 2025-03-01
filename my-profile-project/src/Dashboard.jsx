@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";  // for navigation
 import { fetchUserData, fetchSkills, fetchLevel, fetchXP } from "./fetch_data";
+import "./pico.css";
+
 import { UserSkills } from "./user_skills";
+
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
@@ -123,7 +126,14 @@ const Dashboard = () => {
 };
 
 const styles = {
-  button: { padding: "10px", backgroundColor: "red", color: "white", border: "none", cursor: "pointer" },
+  button: { 
+    padding: "10px", 
+    backgroundColor: "var(--primary)", 
+    color: "var(--contrast)", 
+    border: "none", 
+    cursor: "pointer" 
+  },
 };
+
 
 export default Dashboard;
