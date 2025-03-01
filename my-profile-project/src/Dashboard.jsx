@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";  // for navigation
+import { fetchUserData, fetchSkills, fetchLevel, fetchXP } from "./fetch_data";
+import { UserSkills } from "./user_skills";
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
+  const [skills, setSkills] = useState([]);
+  const [level, setLevel] = useState(null);
+  const [xp, setXP] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -13,7 +18,7 @@ const Dashboard = () => {
 
       // If there's no token, redirect to login page
       if (!token) {
-        navigate("/");  // Redirect to login page
+        navigate("/login");  // Redirect to login page
       }
 
       try {
@@ -33,6 +38,10 @@ const Dashboard = () => {
                         email
                         campus
                       }
+                      transaction {
+                        amount
+                        type
+                      }
                     }`,
           }),
         });
@@ -42,7 +51,22 @@ const Dashboard = () => {
           setError(data.errors[0].message);
         } else {
           setUserData(data.data.user[0]);
+         // Extract transactions where type === "skill_prog"
+        const skillTransactions = data.data.transaction
+        .filter(trans => trans.type === "skill_prog")
+        .map(trans => trans.amount); // Extract only the amount
+
+      setSkills(skillTransactions);
         }
+            // Fetch skills, level, and XP
+            const skillsData = await fetchSkills(token);
+            const levelData = await fetchLevel(token);
+            const xpData = await fetchXP(token);
+
+            setSkills(skillsData);
+            setLevel(levelData);
+            setXP(xpData);
+
       } catch (error) {
         console.log("Error fetching user data:", error);
         setError("Failed to fetch user data");
@@ -72,6 +96,24 @@ const Dashboard = () => {
       <p>Email: {userData.email}</p>
       <p>Campus: {userData.campus}</p>
       <p>Username: {userData.login}</p>
+      <p>First Name: {userData.firstName}</p>
+      <p>Last Name: {userData.lastName}</p>
+
+      <h2>Skills</h2>
+      <div>
+      <p>Skills: {skills.length > 0 ? skills.map(skill => skill.name).join(", ") : "No skills available"}</p>
+
+      </div>
+
+      <h2>Level</h2>             
+      <div>
+      <p>Level: {level || "Not available"}</p>
+      </div>          
+
+      <h2>XP</h2>
+      <div>
+      <p>XP: {xp || "Not available"}</p>
+      </div>
       {/* Add more data as needed */}
 
         {/* Logout Button */}

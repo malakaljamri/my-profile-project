@@ -1,6 +1,7 @@
 import axios from "axios";
-const API = "https://learn.reboot01.com/api/graphql-engine/v1/graphql";
 import { formatBytes } from "./AuditRatio";
+
+const API = "https://learn.reboot01.com/api/graphql-engine/v1/graphql";
 
 export async function fetchUserData() {
   try {
