@@ -19,7 +19,7 @@ const App = () => {
       <div className="App">
         <Routes>
           {/* Conditional Rendering: Show login or dashboard based on authentication */}
-          <Route path="/" element={isAuthenticated ? <Dashboard /> : <Login />} />
+          <Route path="/" element= {<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </div>

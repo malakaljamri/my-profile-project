@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";  // for navigation
 import { fetchUserData, fetchSkills, fetchLevel, fetchXP } from "./fetch_data";
 import "./pico.css";
-
 import { UserSkills } from "./user_skills";
-
+import { AuditRatio } from "./AuditRatio";
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
@@ -40,12 +39,34 @@ const Dashboard = () => {
                         lastName
                         email
                         campus
+                        totalUp
+                        totalDown
+                        auditRatio
                       }
                       transaction {
-                        amount
-                        type
-                      }
-                    }`,
+                      id
+                      amount
+                      type
+                      userId
+                      createdAt
+                      path
+                      progress { id grade }
+                    }
+                    result { id grade userId createdAt isLast }
+
+                     event_user(
+                    where: {
+                      userLogin: { _eq: "your_username" }
+                      event: { path: { _eq: "/bahrain/bh-module" } }
+                    }
+                  ) {
+                    level
+                  }
+                }`,
+                
+
+
+                  
           }),
         });
 
@@ -60,6 +81,12 @@ const Dashboard = () => {
         .map(trans => trans.amount); // Extract only the amount
 
       setSkills(skillTransactions);
+      // Extract level
+      if (data.data.event_user.length > 0) {
+        setLevel(data.data.event_user[0].level);
+      } else {
+        setLevel("Not available");
+      }
         }
             // Fetch skills, level, and XP
             const skillsData = await fetchSkills(token);
@@ -93,34 +120,65 @@ const Dashboard = () => {
     return <div>Loading...</div>;
   }
 
+   // Ensure the formatted values are defined only when userData is available
+   const formattedTotalUp = formatBytes(userData.totalUp || 0);
+   const formattedTotalDown = formatBytes(userData.totalDown || 0);
+
+   function formatBytes(bytes, precision = 2) {
+    let units = ["B", "kB", "MB", "GB", "TB"];
+  
+    if (bytes === 0) return "0 B";
+  
+    let exponent = Math.floor(Math.log(bytes) / Math.log(1000));
+    let value = (bytes / Math.pow(1000, exponent)).toFixed(precision);
+  
+    return `${value} ${units[exponent]}`;
+  }
+ 
+
   return (
     <div>
       <h1>Welcome, {userData.firstName}!</h1>
       <p>Email: {userData.email}</p>
       <p>Campus: {userData.campus}</p>
       <p>Username: {userData.login}</p>
-      <p>First Name: {userData.firstName}</p>
-      <p>Last Name: {userData.lastName}</p>
+      <p>Audit Ratio: {userData.auditRatio.toFixed(2)}</p>
 
       <h2>Skills</h2>
-      <div>
       <p>Skills: {skills.length > 0 ? skills.map(skill => skill.name).join(", ") : "No skills available"}</p>
 
-      </div>
-
-      <h2>Level</h2>             
-      <div>
+      <h2>Level</h2>
       <p>Level: {level || "Not available"}</p>
-      </div>          
 
       <h2>XP</h2>
-      <div>
       <p>XP: {xp || "Not available"}</p>
-      </div>
-      {/* Add more data as needed */}
 
-        {/* Logout Button */}
-        <button onClick={handleLogout} style={styles.button}>Logout</button>
+      <h2>Statistics</h2>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <svg width="400" height="200">
+          {/* Bar for Total Up */}
+          <rect x="50" y="50" width="100" height={userData.totalUp / 20000} fill="blue" />
+          <text x="100" y="45" textAnchor="middle" fontSize="14" fill="black">
+            {formattedTotalUp}
+          </text>
+
+          {/* Bar for Total Down */}
+          <rect x="200" y="50" width="100" height={userData.totalDown / 20000} fill="red" />
+          <text x="250" y="45" textAnchor="middle" fontSize="14" fill="black">
+            {formattedTotalDown}
+          </text>
+
+          {/* Labels */}
+          <text x="100" y="180" textAnchor="middle" fontSize="16" fill="blue">
+            Done
+          </text>
+          <text x="250" y="180" textAnchor="middle" fontSize="16" fill="red">
+            Recived
+          </text>
+        </svg>
+      </div>
+
+      <button onClick={handleLogout} style={styles.button}>Logout</button>
     </div>
   );
 };
