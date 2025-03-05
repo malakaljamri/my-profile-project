@@ -1,5 +1,4 @@
 import axios from "axios";
-import { formatBytes } from "./AuditRatio";
 
 const API = "https://learn.reboot01.com/api/graphql-engine/v1/graphql";
 
@@ -134,30 +133,35 @@ export async function fetchLevel(username) {
 }
 
 export async function fetchXP() {
-  const payload = {
-    query: `query {
-  transaction_aggregate(
-    where: {
-      event: { path: { _eq: "/bahrain/bh-module" } }
-      type: { _eq: "xp" }
-    }
-  ) {
-    aggregate {
-      sum {
-        amount
-      }
-    }
-  }
-}`,
-  };
-  const response = await axios.post(API, payload, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    },
-  });
+  try {
+    const payload = {
+      query: `query {
+        transaction_aggregate(
+          where: {
+            event: { path: { _eq: "/bahrain/bh-module" } }
+            type: { _eq: "xp" }
+          }
+        ) {
+          aggregate {
+            sum {
+              amount
+            }
+          }
+        }
+      }`,
+    };
 
-  const data = response.data;
-  console.log(data)
-  return formatBytes(data.data.transaction_aggregate.aggregate.sum.amount, 2);
+    const response = await axios.post(API, payload, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Return the sum of XP amount
+    return response.data.data.transaction_aggregate.aggregate.sum.amount;
+  } catch (error) {
+    console.log(error);
+    return 0; // Return 0 if there's an error
+  }
 }

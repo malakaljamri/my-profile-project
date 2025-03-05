@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";  // for navigation
 import { fetchUserData, fetchSkills, fetchLevel, fetchXP } from "./fetch_data";
 import "./pico.css";
-import { UserSkills } from "./user_skills";
-import { AuditRatio } from "./AuditRatio";
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
@@ -12,6 +10,13 @@ const Dashboard = () => {
   const [xp, setXP] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (error && (error.message.includes('unauthorized') || error.message.includes('token'))) {
+      localStorage.removeItem('token');
+      navigate('/'); // Redirect to login page if the error is related to authorization
+    }
+  }, [error, navigate]);
 
   // Fetch user data on component mount
   useEffect(() => {
@@ -63,10 +68,6 @@ const Dashboard = () => {
                     level
                   }
                 }`,
-                
-
-
-                  
           }),
         });
 
@@ -75,18 +76,6 @@ const Dashboard = () => {
           setError(data.errors[0].message);
         } else {
           setUserData(data.data.user[0]);
-         // Extract transactions where type === "skill_prog"
-        const skillTransactions = data.data.transaction
-        .filter(trans => trans.type === "skill_prog")
-        .map(trans => trans.amount); // Extract only the amount
-
-      setSkills(skillTransactions);
-      // Extract level
-      if (data.data.event_user.length > 0) {
-        setLevel(data.data.event_user[0].level);
-      } else {
-        setLevel("Not available");
-      }
         }
             // Fetch skills, level, and XP
             const skillsData = await fetchSkills(token);
@@ -123,6 +112,7 @@ const Dashboard = () => {
    // Ensure the formatted values are defined only when userData is available
    const formattedTotalUp = formatBytes(userData.totalUp || 0);
    const formattedTotalDown = formatBytes(userData.totalDown || 0);
+   const formattedXP = formatBytes(xp || 0);
 
    function formatBytes(bytes, precision = 2) {
     let units = ["B", "kB", "MB", "GB", "TB"];
@@ -151,7 +141,7 @@ const Dashboard = () => {
       <p>Level: {level || "Not available"}</p>
 
       <h2>XP</h2>
-      <p>XP: {xp || "Not available"}</p>
+      <p>XP: {formattedXP}</p>
 
       <h2>Statistics</h2>
       <div style={{ display: "flex", justifyContent: "center" }}>
@@ -192,6 +182,5 @@ const styles = {
     cursor: "pointer" 
   },
 };
-
 
 export default Dashboard;
