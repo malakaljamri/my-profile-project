@@ -77,14 +77,15 @@ const Dashboard = () => {
         } else {
           setUserData(data.data.user[0]);
         }
-            // Fetch skills, level, and XP
-            const skillsData = await fetchSkills(token);
-            const levelData = await fetchLevel(token);
-            const xpData = await fetchXP(token);
 
-            setSkills(skillsData);
-            setLevel(levelData);
-            setXP(xpData);
+        // Fetch skills, level, and XP
+        const skillsData = await fetchSkills(token);
+        const levelData = await fetchLevel(token);
+        const xpData = await fetchXP(token);
+
+        setSkills(skillsData.map(skill => skill.type)); // Extract skill types
+        setLevel(levelData || "Not available");
+        setXP(xpData);
 
       } catch (error) {
         console.log("Error fetching user data:", error);
@@ -135,10 +136,10 @@ const Dashboard = () => {
       <p>Audit Ratio: {userData.auditRatio.toFixed(2)}</p>
 
       <h2>Skills</h2>
-      <p>Skills: {skills.length > 0 ? skills.map(skill => skill.name).join(", ") : "No skills available"}</p>
+      <p>Skills: {skills.length > 0 ? skills.join(", ") : "No skills available"}</p>
 
       <h2>Level</h2>
-      <p>Level: {level || "Not available"}</p>
+      <p>Level: {level}</p>
 
       <h2>XP</h2>
       <p>XP: {formattedXP}</p>
