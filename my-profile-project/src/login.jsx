@@ -47,47 +47,45 @@ function Login() {
 
   return (
     <div style={styles.container}>
-      <h2>Login</h2>
-      {error && <p style={styles.error}>{error}</p>}
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            style={styles.input}
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={styles.input}
-          />
-        </div>
-        <button type="submit" style={styles.button}>Login</button>
-      </form>
+      <article>
+        <h2>Login</h2>
+        {error && <p style={styles.error}>{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <label>
+            Username:
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Password:
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </label>
+          <button type="submit">Login</button>
+        </form>
+      </article>
     </div>
   );
-}
+};
 
 const styles = {
-  container: { maxWidth: "300px", margin: "auto", textAlign: "center" },
-  form: { display: "flex", flexDirection: "column", gap: "10px" },
-  input: { width: "100%", padding: "8px", marginBottom: "10px" },
-  button: { 
-    padding: "10px", 
-    backgroundColor: "var(--primary)", 
-    color: "var(--contrast)", 
-    border: "none", 
-    cursor: "pointer" 
+  container: {
+    maxWidth: "400px",
+    margin: "auto",
+    padding: "20px",
+    textAlign: "center",
   },
-  error: { color: "red" },
+  error: {
+    color: "red",
+  },
 };
 
 export default Login;
