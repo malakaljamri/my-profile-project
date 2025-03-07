@@ -156,31 +156,129 @@ const Dashboard = () => {
   
     return `${value} ${units[exponent]}`;
   }
- 
-
+  
   return (
-    <main className="container">
-    <article>
-      <section>
-        <h1>Welcome, {userData.firstName}!</h1>
-        <article>
-          <p><strong>Email:</strong> {userData.email}</p>
-          <p><strong>Campus:</strong> {userData.campus}</p>
-          <p><strong>Username:</strong> {userData.login}</p>
-          <p><strong>First Name:</strong> {userData.firstName}</p>
-          <p><strong>Last Name:</strong> {userData.lastName}</p>
-        </article>
-      </section>
-    </article>
+    <main className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: '20px', width: '100%' }}>
+      <article style={{ boxShadow: '0 4px 8px #BEB8A7', padding: '20px', borderRadius: '10px', width: '100%', maxWidth: '600px', margin: '0 auto' }}>
+        <h1>
+          <span style={{ color: '#BEB8A7' }}>Welcome, {userData.firstName}!</span>
+        </h1>
+      </article>
+  
+      <article style={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', padding: '20px', borderRadius: '10px', width: '100%', maxWidth: '600px', margin: '0 auto' }}>
+        <p><strong>Email:</strong> {userData.email}</p>
+        <p><strong>Campus:</strong> {userData.campus}</p>
+        <p><strong>Username:</strong> {userData.login}</p>
+        <p><strong>First Name:</strong> {userData.firstName}</p>
+        <p><strong>Last Name:</strong> {userData.lastName}</p>
+      </article>
 
-    <article>
-      <section>
+        {/* Statistics */}
+        <article style={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', padding: '20px', borderRadius: '10px', width: '48%' }}>
+        <h2>Statistics</h2>
+        <p><strong>Audit Ratio:</strong> {userData.auditRatio.toFixed(2)}</p>
+        <div style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
+          <svg width="400" height="300">
+            {(() => {
+              const maxValue = Math.max(userData.totalUp, userData.totalDown) || 1;
+              const doneHeight = (userData.totalUp / maxValue) * 200;
+              const receivedHeight = (userData.totalDown / maxValue) * 200;
+              return (
+                <>
+                  {/* Done Bar */}
+                  <rect
+                    x="80"
+                    y={250 - doneHeight}
+                    width="50"
+                    height={doneHeight}
+                    fill="#BEB8A7"
+                    rx="5"
+                    ry="5"
+                  />
+                  <text
+                    x="105"
+                    y={250 - doneHeight - 10}
+                    textAnchor="middle"
+                    fontSize="14"
+                    fill="#BEB8A7"
+                  >
+                    {formattedTotalUp}
+                  </text>
+                  <text
+                    x="105"
+                    y="270"
+                    textAnchor="middle"
+                    fontSize="14"
+                    fill="#BEB8A7"
+                  >
+                    Done
+                  </text>
+
+                  {/* Received Bar */}
+                  <rect
+                    x="250"
+                    y={250 - receivedHeight}
+                    width="50"
+                    height={receivedHeight}
+                    fill="#BEB8A7"
+                    rx="5"
+                    ry="5"
+                  />
+                  <text
+                    x="275"
+                    y={250 - receivedHeight - 10}
+                    textAnchor="middle"
+                    fontSize="14"
+                    fill="#BEB8A7"
+                  >
+                    {formattedTotalDown}
+                  </text>
+                  <text
+                    x="275"
+                    y="270"
+                    textAnchor="middle"
+                    fontSize="14"
+                    fill="#BEB8A7"
+                  >
+                    Received
+                  </text>
+                </>
+              );
+            })()}
+          </svg>
+        </div>
+      </article>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px', flexWrap: 'wrap', width: '100%' }}>
+        <article style={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', padding: '20px', borderRadius: '10px', width: '48%' }}>
+          <h2>Level</h2>
+          <svg width="200" height="200">
+            <circle cx="100" cy="100" r="50" fill="#F5A390" stroke="#333" strokeWidth="3" />
+            <text x="100" y="100" textAnchor="middle" fontSize="20" fill="#fff" dy=".3em">
+              Level {level}
+            </text>
+          </svg>
+        </article>
+  
+        <article style={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', padding: '20px', borderRadius: '10px', width: '48%' }}>
+          <h2>XP</h2>
+          <svg width="200" height="200">
+            <circle cx="100" cy="100" r="50" fill="#748BF8" stroke="#333" strokeWidth="3" />
+            <text x="100" y="100" textAnchor="middle" fontSize="20" fill="#fff" dy=".3em">
+              XP {formattedXP}
+            </text>
+          </svg>
+        </article>
+      </div>
+
+  
+      <article style={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', padding: '20px', borderRadius: '10px', width: '100%', maxWidth: '1000px', margin: '0 auto' }}>
         <h2>Skills Chart</h2>
-        <div style={{ display: "flex", justifyContent: "center", padding: "20px" }}>
+        <div style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
           <svg width="100%" height="400">
             {Object.entries(skillMap).map(([skill, value], index) => (
               <g key={skill} transform={`translate(${index * 60}, 0)`}>
-                <rect x="10" y={300 - value * 3} width="40" height={value * 3} fill="#4CAF50" rx="5" ry="5" />
+                <rect x="10" y={300 - value * 3} width="40" height={value * 3} fill="#BEB8A7" rx="5" ry="5" />
                 <text x="30" y={300 - value * 3 + 20} textAnchor="middle" fontSize="14" fill="#fff">
                   {value}%
                 </text>
@@ -192,51 +290,14 @@ const Dashboard = () => {
             ))}
           </svg>
         </div>
-      </section>
-    </article>
-
-    <article>
-      <section>
-        <h2>Level & XP</h2>
-        <div style={{ display: "flex", justifyContent: "center", padding: "20px" }}>
-          <svg width="200" height="200">
-            <circle cx="100" cy="100" r="50" fill="#4CAF50" stroke="#333" strokeWidth="3" />
-            <text x="100" y="100" textAnchor="middle" fontSize="20" fill="#fff" dy=".3em">
-              Level {level}
-            </text>
-          </svg>
-          <svg width="200" height="200">
-            <circle cx="100" cy="100" r="50" fill="#FF9800" stroke="#333" strokeWidth="3" />
-            <text x="100" y="100" textAnchor="middle" fontSize="20" fill="#fff" dy=".3em">
-              XP {formattedXP}
-            </text>
-          </svg>
-        </div>
-      </section>
-    </article>
-
-    <article>
-      <section>
-        <h2>Statistics</h2>
-        <p><strong>Audit Ratio:</strong> {userData.auditRatio.toFixed(2)}</p>
-        <div className="grid">
-          <article>
-            <h3 style={{ color: "#4CAF50" }}>Done </h3>
-            <p>{formattedTotalUp}</p>
-          </article>
-          <article>
-            <h3 style={{ color: "#FF5722" }}>Recived !</h3>
-            <p>{formattedTotalDown}</p>
-          </article>
-        </div>
-      </section>
-    </article>
-
-      <section>
-      </section>
-      <button onClick={handleLogout} className="contrast">Logout</button>
+      </article>
+  
+      <button onClick={handleLogout} className="contrast" style={{ marginTop: '20px', padding: '10px 20px', borderRadius: '5px' }}>
+        Logout
+      </button>
     </main>
   );
-};
-
-export default Dashboard;
+}
+  
+  export default Dashboard;
+  
