@@ -54,6 +54,17 @@
   max-width: 1100px;
 }
 
+.level-xp {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.level, .xp {
+  text-align: center;
+}
+
+
 .level,
 .xp {
   width: 48%;
@@ -82,17 +93,23 @@
 button {
   margin-top: 25px;
   padding: 12px 30px;
-  background-color: beige;
   border-radius: 8px;
   font-size: 1.1rem;
   font-weight: bold;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
+.bar {
+  transition: transform 0.2s ease-in-out;
+}
+.bar:hover {
+  transform: scaleY(1.1);
+}
 
 /* Contrast Button Styling */
-.contrast {
-  background-color: #017FC0;
-  border: none;
+button.contrast {
+  background-color: #052940 !important;  /* Force Pico to keep this color */
+  color: #fff !important;                /* Ensure text stays white */
+  border: none !important;
   cursor: pointer;
   box-shadow: 0 6px 18px rgba(243, 241, 241, 0.1); /* Adding shadow for depth */
 }
@@ -110,7 +127,7 @@ button.logout {
   color: white;
   border: none;
   cursor: pointer;
-  box-shadow: 0 6px 18px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 6px 18px rgba(243, 241, 241, 0.1);
 }
 
 button.logout:hover {

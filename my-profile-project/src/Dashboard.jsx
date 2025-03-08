@@ -51,6 +51,8 @@ const Dashboard = () => {
                         lastName
                         email
                         campus
+                        profile
+                        attrs
                         totalUp
                         totalDown
                         auditRatio
@@ -160,170 +162,110 @@ const Dashboard = () => {
   
   return  (
     <main className="container">
-      {/* User Info & Audit Statistics */}
-      <div className="info-container">
-        {/* User Info on the Left */}
-        <article className="user-info">
-          <h1>
-            <span className="user-info-welcome">Welcome, {userData.firstName}!</span>
-          </h1>
-          <p>
-            <strong>Email:</strong> {userData.email}
-          </p>
-          <p>
-            <strong>Campus:</strong> {userData.campus}
-          </p>
-          <p>
-            <strong>Username:</strong> {userData.login}
-          </p>
-          <p>
-            <strong>First Name:</strong> {userData.firstName}
-          </p>
-          <p>
-            <strong>Last Name:</strong> {userData.lastName}
-          </p>
+    {/* User Info & Audit Statistics */}
+    <div className="info-container">
+      {/* User Info on the Left */}
+      <article className="user-info">
+        <h1>
+          <span className="user-info-welcome">Welcome, {userData.firstName}!</span>
+        </h1>
+        <p><strong>Email:</strong> {userData.email}</p>
+        <p><strong>Campus:</strong> {userData.campus}</p>
+        <p><strong>Username:</strong> {userData.login}</p>
+        <p><strong>First Name:</strong> {userData.firstName}</p>
+        <p><strong>Last Name:</strong> {userData.lastName}</p>
+        <p>Gender: <span className="DataText">{userData.attrs.gender}</span></p>
+        <p>Country of birth: <span className="DataText">{userData.attrs.countryOfBirth}</span></p>
+        <p>Phone Number: <span className="DataText">{userData.attrs.Phone}</span></p>
+        <p>CPR Number: <span className="DataText">{userData.attrs.CPRnumber}</span></p>
+        <p>Qualification: <span className="DataText">{userData.attrs.qualification}</span></p>
+        <p>Degree: <span className="DataText">{userData.attrs.Degree}</span></p>
+        <p>Job: <span className="DataText">{userData.attrs.jobtitle}</span></p>
         </article>
 
-        {/* Audit Statistics on the Right */}
-        <article className="audit-stats">
-          <h2>Audit</h2>
-          <p>
-            <strong>Audit Ratio:</strong> {userData.auditRatio.toFixed(2)}
-          </p>
-          <div className="audit-graph">
-            <svg width="400" height="300">
-              {(() => {
-                const maxValue = Math.max(userData.totalUp, userData.totalDown) || 1;
-                const doneHeight = (userData.totalUp / maxValue) * 200;
-                const receivedHeight = (userData.totalDown / maxValue) * 200;
-                return (
-                  <>
-                    {/* Done Bar */}
-                    <rect
-                      x="80"
-                      y={250 - doneHeight}
-                      width="50"
-                      height={doneHeight}
-                      fill="#BEB8A7"
-                      rx="5"
-                      ry="5"
-                    />
-                    <text
-                      x="105"
-                      y={250 - doneHeight - 10}
-                      textAnchor="middle"
-                      fontSize="14"
-                      fill="#BEB8A7"
-                    >
-                      {formattedTotalUp}
-                    </text>
-                    <text
-                      x="105"
-                      y="270"
-                      textAnchor="middle"
-                      fontSize="14"
-                      fill="#BEB8A7"
-                    >
-                      Done
-                    </text>
+    
+      {/* Audit Statistics on the Right */}
+      <article className="audit-stats">
+        <h2>Audit</h2>
+        <p><strong>Audit Ratio:</strong> {userData.auditRatio.toFixed(2)}</p>
+        <div className="audit-graph">
+          <svg width="400" height="300">
+            {(() => {
+              const maxValue = Math.max(userData.totalUp, userData.totalDown) || 1;
+              const doneHeight = (userData.totalUp / maxValue) * 200;
+              const receivedHeight = (userData.totalDown / maxValue) * 200;
+              return (
+                <>
+                  {/* Done Bar */}
+                  <rect x="80" y={250 - doneHeight} width="50" height={doneHeight} fill="#BEB8A7" rx="5" ry="5" />
+                  <text x="105" y={250 - doneHeight - 10} textAnchor="middle" fontSize="14" fill="#BEB8A7">{formattedTotalUp}</text>
+                  <text x="105" y="270" textAnchor="middle" fontSize="14" fill="#BEB8A7">Done</text>
 
-                    {/* Received Bar */}
-                    <rect
-                      x="250"
-                      y={250 - receivedHeight}
-                      width="50"
-                      height={receivedHeight}
-                      fill="#BEB8A7"
-                      rx="5"
-                      ry="5"
-                    />
-                    <text
-                      x="275"
-                      y={250 - receivedHeight - 10}
-                      textAnchor="middle"
-                      fontSize="14"
-                      fill="#BEB8A7"
-                    >
-                      {formattedTotalDown}
-                    </text>
-                    <text
-                      x="275"
-                      y="270"
-                      textAnchor="middle"
-                      fontSize="14"
-                      fill="#BEB8A7"
-                    >
-                      Received
-                    </text>
-                  </>
-                );
-              })()}
+                  {/* Received Bar */}
+                  <rect x="250" y={250 - receivedHeight} width="50" height={receivedHeight} fill="#BEB8A7" rx="5" ry="5" />
+                  <text x="275" y={250 - receivedHeight - 10} textAnchor="middle" fontSize="14" fill="#BEB8A7">{formattedTotalDown}</text>
+                  <text x="275" y="270" textAnchor="middle" fontSize="14" fill="#BEB8A7">Received</text>
+                </>
+              );
+            })()}
+          </svg>
+        </div>
+         {/* Level & XP Below User Info */}
+         <div className="level-xp">
+          <article className="level">
+            <h2>Level</h2>
+            <svg width="140" height="140">
+              <circle cx="70" cy="70" r="50" fill="#BEB8A7" stroke="#333" strokeWidth="5" />
+              <text x="70" y="75" textAnchor="middle" fontSize="19" fill="#052940">{level}</text>
             </svg>
-          </div>
-        </article>
-      </div>
+          </article>
 
-      {/* Level & XP */}
-      <div className="level-xp-container">
-        <article className="level">
-          <h2>Level</h2>
-          <svg width="200" height="200">
-            <circle cx="100" cy="100" r="50" fill="#BEB8A7" stroke="#333" strokeWidth="6" />
-            <text x="100" y="100" textAnchor="middle" fontSize="20" fill="#052940" dy=".3em">
-               {level}
-            </text>
-          </svg>
-        </article>
-
-        <article className="xp">
-          <h2>XP</h2>
-          <svg width="200" height="200">
-            <circle cx="100" cy="100" r="50" fill="#BEB8A7" stroke="#333" strokeWidth="6" />
-            <text x="100" y="100" textAnchor="middle" fontSize="20" fill="#052940" dy=".3em">
-               {formattedXP}
-            </text>
-          </svg>
-        </article>
-      </div>
-
-      {/* Skills Chart */}
-      <article className="skills-chart">
-        <h2>Skills Chart</h2>
-        <div className="skills-graph">
-          <svg width="100%" height="400">
-            {Object.entries(skillMap).map(([skill, value], index) => (
-              <g key={skill} transform={`translate(${index * 60}, 0)`}>
-                <rect
-                  x="10"
-                  y={300 - value * 3}
-                  width="40"
-                  height={value * 3}
-                  fill="#BEB8A7"
-                  rx="5"
-                  ry="5"
-                />
-                <text x="30" y={300 - value * 3 + 20} textAnchor="middle" fontSize="14" fill="#333">
-                  {value}%
-                </text>
-                <circle cx="30" cy="350" r="20" fill="#fff" stroke="#4CAF50" strokeWidth="2" />
-                <text x="30" y="355" textAnchor="middle" fontSize="10" fill="#333">
-                  {skill.replace("skill_", "").toUpperCase()}
-                </text>
-              </g>
-            ))}
-          </svg>
+          <article className="xp">
+            <h2>XP</h2>
+            <svg width="140" height="140">
+              <circle cx="70" cy="70" r="50" fill="#BEB8A7" stroke="#333" strokeWidth="5" />
+              <text x="70" y="75" textAnchor="middle" fontSize="19" fill="#052940">{formattedXP}</text>
+            </svg>
+          </article>
         </div>
       </article>
 
-      {/* Logout Button */}
-      <button
-        onClick={handleLogout}
-        className="contrast"
-        style={{ marginTop: "20px", padding: "10px 20px", borderRadius: "5px" }}
-      >
-        Logout
-      </button>
-    </main>
+    </div>
+
+   {/* Skills Chart */}
+<article className="skills-chart">
+  <h2>Skills Chart</h2>
+  <div className="skills-graph">
+    <svg width="100%" height="400">
+      {Object.entries(skillMap).map(([skill, value], index) => (
+        <g key={skill} transform={`translate(${index * 70}, 0)`}>
+          {/* Skill % text ABOVE the bar */}
+          <text x="35" y={280 - value * 3} textAnchor="middle" fontSize="16" fill="#BEB8A7" fontWeight="bold">
+            {value}%
+          </text>
+          {/* Skill bar */}
+          <rect x="15" y={300 - value * 3} width="40" height={value * 3} fill="#BEB8A7" rx="5" ry="5" />
+          {/* Bigger Skill name circle with Pico CSS color */}
+          <circle cx="35" cy="370" r="25" fill="#BEB8A7" stroke="var(--contrast)" strokeWidth="2" />
+          <text x="35" y="375" textAnchor="middle" fontSize="12" fill="#052940">
+            {skill.replace("skill_", "").toUpperCase()}
+          </text>
+        </g>
+      ))}
+    </svg>
+  </div>
+</article>
+
+
+    {/* Logout Button */}
+    <button
+      onClick={handleLogout}
+      className="contrast"
+      style={{ marginTop: "20px", padding: "10px 20px", borderRadius: "5px" }}
+    >
+      Logout
+    </button>
+  </main>
   );
 }
 
