@@ -80,7 +80,7 @@ const styles = {
   container: {
     maxWidth: "400px",
     margin: "auto",
-    padding: "20px",
+    padding: "10px",
     textAlign: "center",
   },
   error: {
