@@ -1,6 +1,6 @@
 # 🚀 Reboot Student Progress Dashboard
 
-Welcome to the **Reboot Student Progress Dashboard**! 🎓
+Welcome to the **Reboot Student Progress Dashboard**! 
 
 This app helps students track their academic progress and audit statistics. With personalized stats, skills chart, and XP tracking, students can see how they're advancing in their journey. 📊✨
 
