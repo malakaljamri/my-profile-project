@@ -80,6 +80,17 @@ const Dashboard = () => {
           }),
         });
 
+          // Check if the response is successful
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error("Data not found (404)");
+        } else if (response.status === 401) {
+          throw new Error("Unauthorized (401)");
+        } else {
+          throw new Error(`Error: ${response.status}`);
+        }
+      }
+
         const data = await response.json();
         console.log('API Response:', data); // Add logging for API response
         if (data.errors) {
@@ -137,8 +148,18 @@ const Dashboard = () => {
   };
 
   if (error) {
-    return <div>Error: {error}</div>;
+    if (error === "Data not found (404)") {
+      return <div>404 Error: User data not found. Please check your request or try again later.</div>;
+    } else if (error === "Unauthorized (401)") {
+      return <div>Unauthorized Access: Please login to view your dashboard.</div>;
+    } else {
+      return <div>Error: {error}</div>;
+    }
   }
+
+  // if (error) {
+  //   return <div>Error: {error}</div>;
+  // }
 
   if (!userData) {
     return <div>Loading...</div>;
