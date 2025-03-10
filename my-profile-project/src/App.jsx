@@ -6,7 +6,7 @@ import NotFound from "./NotFound"; // The 404 page
 
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [, setIsAuthenticated] = useState(false);
 
   // Check if the user is authenticated (e.g., check if token is present)
   useEffect(() => {
