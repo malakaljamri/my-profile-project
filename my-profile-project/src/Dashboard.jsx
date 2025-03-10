@@ -265,10 +265,10 @@ const Dashboard = () => {
             {value}%
           </text>
           {/* Skill bar */}
-          <rect x="15" y={300 - value * 3} width="40" height={value * 3} fill="#BEB8A7" rx="5" ry="5" />
+          <rect x="15" y={300 - value * 3} width="40" height={value * 3} fill="#BEB8A7 " rx="5" ry="5" />
           {/* Bigger Skill name circle with Pico CSS color */}
-          <circle cx="35" cy="370" r="25" fill="#BEB8A7" stroke="var(--contrast)" strokeWidth="2" />
-          <text x="35" y="375" textAnchor="middle" fontSize="12" fill="#052940">
+          {/*<circle cx="35" cy="370" r="25" fill="#BEB8A7" stroke="var(--contrast)" strokeWidth="2" />*/}
+          <text x="35" y="375" textAnchor="middle" fontSize="12" fill="#BEB8A7">
             {skill.replace("skill_", "").toUpperCase()}
           </text>
         </g>
