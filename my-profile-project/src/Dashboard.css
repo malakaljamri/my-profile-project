@@ -7,6 +7,7 @@
   width: 100%;
   font-family: 'Roboto', sans-serif;
   padding: 40px 20px;
+  box-sizing: border-box; /* Ensure padding is included in total width */
 }
 
 .info-container {
@@ -16,6 +17,7 @@
   flex-wrap: wrap;
   width: 100%;
   max-width: 1100px;
+  box-sizing: border-box;
 }
 
 .user-info,
@@ -28,6 +30,7 @@
   border-radius: 15px;
   width: 48%;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
 }
 
 .user-info-welcome {
@@ -52,6 +55,7 @@
   flex-wrap: wrap;
   width: 100%;
   max-width: 1100px;
+  box-sizing: border-box;
 }
 
 .level-xp {
@@ -64,7 +68,6 @@
   text-align: center;
 }
 
-
 .level,
 .xp {
   width: 48%;
@@ -73,6 +76,7 @@
   text-align: center;
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1); /* More vibrant shadow */
   transition: transform 0.3s ease;
+  box-sizing: border-box;
 }
 
 .skills-chart {
@@ -82,6 +86,7 @@
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .skills-graph {
@@ -97,10 +102,17 @@ button {
   font-size: 1.1rem;
   font-weight: bold;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  width: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
 }
+
 .bar {
   transition: transform 0.2s ease-in-out;
 }
+
 .bar:hover {
   transform: scaleY(1.1);
 }
@@ -112,6 +124,7 @@ button.contrast {
   border: none !important;
   cursor: pointer;
   box-shadow: 0 6px 18px rgba(243, 241, 241, 0.1); /* Adding shadow for depth */
+  box-sizing: border-box;
 }
 
 .contrast:hover {
@@ -128,6 +141,7 @@ button.logout {
   border: none;
   cursor: pointer;
   box-shadow: 0 6px 18px rgba(243, 241, 241, 0.1);
+  box-sizing: border-box;
 }
 
 button.logout:hover {
@@ -138,13 +152,15 @@ button.logout:active {
   transform: scale(1);
 }
 
-/* Responsive Design for Tablets and iPhone */
-@media (max-width: 768px) {
+/* Responsive Design for Phones */
+@media (max-width: 480px) {
+  /* Adjust layout of containers */
   .info-container,
   .level-xp-container {
     flex-direction: column;
     align-items: center;
   }
+
   .user-info,
   .audit-stats,
   .level,
@@ -152,9 +168,85 @@ button.logout:active {
   .skills-chart {
     width: 100%;
     margin: 10px 0;
+    box-sizing: border-box;
   }
+
+  /* Ensure charts scale correctly */
+  .audit-graph,
+  .skills-graph {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    max-height: none;
+  }
+
+  /* Make sure SVG content is fully visible */
+  svg {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100%;
+    overflow: visible;
+  }
+
+  /* Adjust button layout */
   button {
     width: 100%;
     box-sizing: border-box;
+    padding: 12px; /* Increased padding for easier tapping */
+    margin-top: 20px; /* Adjust top margin for spacing */
+  }
+
+  /* Adjust heading font size for mobile */
+  h1, h2, h3 {
+    font-size: 1.25rem; /* Smaller font sizes for headings */
+  }
+
+  /* Reduce padding in some elements to fit small screens better */
+  .user-info,
+  .audit-stats,
+  .skills-chart {
+    padding: 20px;
+  }
+
+  .level, .xp {
+    padding: 15px;
+  }
+
+  .level, .xp, .skills-chart {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); /* Softer shadow for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Further refine for very small screens */
+  .container {
+    padding: 20px 10px; /* Reduce padding */
+    box-sizing: border-box;
+  }
+
+  .user-info-welcome {
+    font-size: 1.5rem; /* Smaller welcome message on small screens */
+  }
+
+  .user-info,
+  .audit-stats,
+  .level,
+  .xp,
+  .skills-chart {
+    width: 100%;
+    margin: 5px 0;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+
+  /* Ensure charts are fully visible */
+  .audit-graph,
+  .skills-graph {
+    width: 100%;
+    overflow: visible;
+  }
+
+  button {
+    padding: 10px; /* Further reduce padding for very small screens */
   }
 }
