@@ -1,6 +1,7 @@
 {
   "name": "my-profile-project",
   "version": "0.1.0",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.13.1",
@@ -11,14 +12,14 @@
     "react": "^19.0.0",
     "react-apexcharts": "^1.7.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.2.0",
+    "react-router-dom": "^6.30.0",
     "react-scripts": "^5.0.1",
     "recharts": "^2.15.1",
     "web-vitals": "^4.2.4"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
