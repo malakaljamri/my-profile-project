@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "https://learn.reboot01.com/api/auth/signin";
 
@@ -6,11 +7,22 @@ function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  // Check if already logged in
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Trigger storage event to update App.js isAuthenticated state
+      window.dispatchEvent(new Event('storage'));
+      navigate("/dashboard", { replace: true });
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Reset error message
-
+    
     // Encode credentials in Base64
     const encoded = btoa(`${username}:${password}`);
     console.log("Encoded credentials:", encoded);  // Check the Base64 encoding
@@ -36,7 +48,19 @@ function Login() {
       if (data) {
         localStorage.setItem("token", data); // Save the token to localStorage
         alert("Login successful!");
-        window.location.href = "/dashboard"; // Redirect to dashboard
+        
+        // Trigger storage event to notify App.js that authentication state changed
+        window.dispatchEvent(new Event('storage'));
+        
+        // Clear browser history to prevent going back to login using browser back button
+        window.history.replaceState(null, '', '/dashboard');
+        
+        // Navigate to dashboard with replace option to prevent back navigation
+        navigate("/dashboard", { replace: true });
+        
+        // Clear the form
+        setUsername("");
+        setPassword("");
       } else {
         setError("Invalid username or password");
       }

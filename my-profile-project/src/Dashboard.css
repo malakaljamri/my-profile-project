@@ -154,71 +154,7 @@ button.logout:active {
 
 /* Responsive Design for Phones */
 @media (max-width: 480px) {
-  /* Adjust layout of containers */
-  .info-container,
-  .level-xp-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .user-info,
-  .audit-stats,
-  .level,
-  .xp,
-  .skills-chart {
-    width: 100%;
-    margin: 10px 0;
-    box-sizing: border-box;
-  }
-
-  /* Ensure charts scale correctly */
-  .audit-graph,
-  .skills-graph {
-    width: 100%;
-    height: auto;
-    overflow: visible;
-    max-height: none;
-  }
-
-  /* Make sure SVG content is fully visible */
-  svg {
-    width: 100% !important;
-    height: auto !important;
-    max-width: 100%;
-    overflow: visible;
-  }
-
-  /* Adjust button layout */
-  button {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 12px; /* Increased padding for easier tapping */
-    margin-top: 20px; /* Adjust top margin for spacing */
-  }
-
-  /* Adjust heading font size for mobile */
-  h1, h2, h3 {
-    font-size: 1.25rem; /* Smaller font sizes for headings */
-  }
-
-  /* Reduce padding in some elements to fit small screens better */
-  .user-info,
-  .audit-stats,
-  .skills-chart {
-    padding: 20px;
-  }
-
-  .level, .xp {
-    padding: 15px;
-  }
-
-  .level, .xp, .skills-chart {
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); /* Softer shadow for smaller screens */
-  }
-}
-
-@media (max-width: 480px) {
-  /* Further refine for very small screens */
+  /* General adjustments for very small screens */
   .container {
     padding: 20px 10px; /* Reduce padding */
     box-sizing: border-box;
@@ -230,12 +166,16 @@ button.logout:active {
 
   .user-info,
   .audit-stats,
-  .level,
-  .xp,
   .skills-chart {
     width: 100%;
     margin: 5px 0;
     padding: 15px;
+    box-sizing: border-box;
+  }
+  
+  /* Remove width adjustment for .level and .xp here because we'll redefine them below */
+  .level,
+  .xp {
     box-sizing: border-box;
   }
 
@@ -248,5 +188,75 @@ button.logout:active {
 
   button {
     padding: 10px; /* Further reduce padding for very small screens */
+  }
+  
+  /* Overlapping effect for Level and XP only on mobile */
+  .level-xp {
+    position: relative; /* Establish positioning context */
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  /* Level box: in front and shifted left */
+  .level {
+    position: relative;
+    z-index: 2;       /* Bring level to the front */
+    left: -20px;      /* Shift level a bit to the left */
+    width: 50%;       /* Adjust width as needed */
+    border-radius: 10px;
+    padding: 15px;    /* Use mobile padding */
+    text-align: center;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    background: #fff; /* Solid background for clarity */
+    box-sizing: border-box;
+  }
+  
+  /* XP box: behind the level box */
+  .xp {
+    position: absolute;
+    z-index: 1;       /* Place xp behind level */
+    top: 0;
+    right: 0;
+    width: 50%;       /* Adjust width as needed */
+    border-radius: 10px;
+    padding: 15px;    /* Use mobile padding */
+    text-align: center;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    background: #fff; /* Solid background for clarity */
+    box-sizing: border-box;
+  }
+  
+  /* Overlapping effect for Audit Graph only on mobile */
+  /* Note: This assumes you have two overlapping elements inside .audit-graph:
+     one with class .graph-front and another with .graph-back */
+  .audit-graph {
+    position: relative;
+  }
+  
+  .audit-graph .graph-front {
+    position: relative;
+    z-index: 2;       /* Bring the front element forward */
+    left: -20px;      /* Shift it a bit to the left */
+    width: 50%;       /* Adjust width as needed */
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    box-sizing: border-box;
+  }
+  
+  .audit-graph .graph-back {
+    position: absolute;
+    z-index: 1;       /* Place the back element behind */
+    top: 0;
+    right: 0;
+    width: 50%;       /* Adjust width as needed */
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    box-sizing: border-box;
   }
 }

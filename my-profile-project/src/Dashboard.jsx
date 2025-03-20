@@ -12,15 +12,21 @@ const Dashboard = () => {
   const [error, setError] = useState(null);
   const [skillMap, setSkillMap] = useState({});
 
+  
   const navigate = useNavigate();
-
   useEffect(() => {
     if (error && (error.message.includes('unauthorized') || error.message.includes('token'))) {
       localStorage.removeItem('token');
       navigate('/'); // Redirect to login page if the error is related to authorization
     }
   }, [error, navigate]);
-
+  const token = localStorage.getItem("token");
+  useEffect(() => {
+    if(!token) {
+      console.log("No token found. Redirecting to login page.");
+      navigate("/");  // Redirect to login page
+    }
+  }, [token, navigate]);
   useEffect(() => {
     console.log(skillMap);
   }, [skillMap])
@@ -139,12 +145,20 @@ const Dashboard = () => {
     };
 
     fetchUserData();
-  }, [navigate, userData]);
+  }, [navigate]);
 
   const handleLogout = () => {
-    // Remove token from localStorage and redirect to login page
+    // Remove token from localStorage
     localStorage.removeItem("token");
-    navigate("/"); // Redirect to login page
+    
+    // Trigger storage event to notify App.js that authentication state changed
+    window.dispatchEvent(new Event('storage'));
+    
+    // Clear the history to ensure that the user can't use browser back to return to dashboard
+    window.history.replaceState(null, '', '/');
+    
+    // Navigate to login page, replace history
+    navigate("/", { replace: true });
   };
 
   if (error) {
