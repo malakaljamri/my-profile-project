@@ -73,15 +73,6 @@ const Dashboard = () => {
                       progress { id grade }
                     }
                     result { id grade userId createdAt isLast }
-
-                     event_user(
-                    where: {
-                      userLogin: { _eq: "${userData?.login}" }
-                      event: { path: { _eq: "/bahrain/bh-module" } }
-                    }
-                  ) {
-                    level
-                  }
                 }`,
           }),
         });
@@ -109,11 +100,21 @@ const Dashboard = () => {
               setSkillMap((prev) => ({...prev, [transaction.type]: transaction.amount}));
             }
           })
+          
+          // Only fetch level after userData is set and contains login
+          if (data.data.user[0]?.login) {
+            try {
+              const levelData = await fetchLevel(data.data.user[0].login);
+              setLevel(levelData || "Not available");
+            } catch (levelError) {
+              console.error("Error fetching level:", levelError);
+              setLevel("Not available");
+            }
+          }
         }
 
-        // Fetch skills, level, and XP
+        // Fetch skills and XP
         const skillsData = await fetchSkills(token);
-        const levelData = await fetchLevel(userData?.login); // Pass the correct username
         const xpData = await fetchXP(token);
 
         const skillMapping = {
@@ -135,7 +136,6 @@ const Dashboard = () => {
         };
 
         setSkills(skillsData.map(skill => (skillMapping[skill.type] || skill.type).toUpperCase()));
-        setLevel(levelData || "Not available");
         setXP(xpData);
 
       } catch (error) {
@@ -222,7 +222,7 @@ const Dashboard = () => {
       {/* Audit Statistics on the Right */}
       <article className="audit-stats">
         <h2>Audit</h2>
-        <p><strong>Audit Ratio:</strong> {userData.auditRatio.toFixed(2)}</p>
+        <p><strong>Audit Ratio:</strong> {Math.ceil(userData.auditRatio * 10) / 10}</p>
         <div className="audit-graph">
           <svg width="400" height="300">
             {(() => {
