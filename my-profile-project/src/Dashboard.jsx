@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";  // for navigation
-import { fetchUserData, fetchSkills, fetchLevel, fetchXP } from "./fetch_data";
+import {  fetchLevel, fetchXP } from "./fetch_data";
 import "./pico.css";
 import "./Dashboard.css";
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
-  const [skills, setSkills] = useState([]);
   const [level, setLevel] = useState(null);
   const [xp, setXP] = useState(null);
   const [error, setError] = useState(null);
   const [skillMap, setSkillMap] = useState({});
+
+  
 
   
   const navigate = useNavigate();
@@ -114,28 +115,28 @@ const Dashboard = () => {
         }
 
         // Fetch skills and XP
-        const skillsData = await fetchSkills(token);
+        //const skillsData = await fetchSkills(token);
         const xpData = await fetchXP(token);
 
-        const skillMapping = {
-          skill_prog: "Programming",
-          skill_css: "CSS",
-          skill_html: "HTML",
-          skill_front_end: "Front-End",
-          skill_go: "Go",
-          skill_stats: "Statistics",
-          skill_algo: "Algorithms",
-          skill_back_end: "Back-End",
-          skill_sql: "SQL",
-          skill_docker: "Docker",
-          skill_sys_admin: "System Administration",
-          skill_js: "JavaScript",
-          skill_game: "Game Development",
-          skill_tcp: "TCP/IP",
-          skill_unix: "Unix",
-        };
+        // const skillMapping = {
+        //   skill_prog: "Programming",
+        //   skill_css: "CSS",
+        //   skill_html: "HTML",
+        //   skill_front_end: "Front-End",
+        //   skill_go: "Go",
+        //   skill_stats: "Statistics",
+        //   skill_algo: "Algorithms",
+        //   skill_back_end: "Back-End",
+        //   skill_sql: "SQL",
+        //   skill_docker: "Docker",
+        //   skill_sys_admin: "System Administration",
+        //   skill_js: "JavaScript",
+        //   skill_game: "Game Development",
+        //   skill_tcp: "TCP/IP",
+        //   skill_unix: "Unix",
+        // };
 
-        setSkills(skillsData.map(skill => (skillMapping[skill.type] || skill.type).toUpperCase()));
+      
         setXP(xpData);
 
       } catch (error) {
