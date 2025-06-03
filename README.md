@@ -24,4 +24,5 @@ This app helps students track their academic progress and audit statistics. With
 
    ```
 **Developed by MalakAljamri*.
+https://my-profile-project-nwgfdojfb-malaks-projects-47ffe51f.vercel.app
 
